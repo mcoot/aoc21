@@ -1,3 +1,5 @@
+package aoc21.day1
+
 import aoc21.common.Solution
 
 import scala.io.Source
@@ -5,7 +7,7 @@ import scala.io.Source
 // Be nice I've literally never written a line of scala before, scala3 or otherwise
 
 object Day1 extends Solution[List[Int], Int]:
-  def dayNumber = 1
+  override def dayNumber = 1
 
   override def processInput(rawInput: Source): List[Int] = rawInput.getLines.map(s => s.toInt).toList
 
@@ -31,5 +33,6 @@ object Day1 extends Solution[List[Int], Int]:
     solvePart1(slidingSums.collect {
       case Some(s) => s
     })
+
 
 @main def run = Day1.runSolution
