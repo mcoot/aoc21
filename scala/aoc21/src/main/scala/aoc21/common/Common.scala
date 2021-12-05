@@ -1,5 +1,7 @@
 package aoc21.common
 
+import cats.parse.Parser
+
 import scala.io.Source
 
 /**
@@ -28,32 +30,46 @@ trait Solution[InputType, OutputType]:
       val (result, time) = withTime { f(input) }
       println(s"\tResult: ${result} (${time}ms)")
 
-  def runPart1 = runAndPrint(
+  def testProcessInput(testSuffix: String = "") =
+    println(processInput(Source.fromFile(s"./data/test/day${dayNumber}${testSuffix}.in")))
+
+  final def runPart1 = runAndPrint(
     s"./data/input/day${dayNumber}.in",
     List(("Part 1", solvePart1))
   )
 
-  def testPart1(testSuffix: String = "") = runAndPrint(
+  final def testPart1(testSuffix: String = "") = runAndPrint(
     s"./data/test/day${dayNumber}${testSuffix}.in",
     List(("Part 1 [TEST]", solvePart1))
   )
 
-  def runPart2 = runAndPrint(
+  final def runPart2 = runAndPrint(
     s"./data/input/day${dayNumber}.in",
     List(("Part 2", solvePart2))
   )
 
-  def testPart2(testSuffix: String = "") = runAndPrint(
+  final def testPart2(testSuffix: String = "") = runAndPrint(
     s"./data/test/day${dayNumber}${testSuffix}.in",
     List(("Part 2 [TEST]", solvePart2))
   )
 
-  def runSolution = runAndPrint(
+  final def runSolution = runAndPrint(
     s"./data/input/day${dayNumber}.in",
     List(("Part 1", solvePart1), ("Part 2", solvePart2))
   )
 
-  def testSolution(testSuffix: String = "") = runAndPrint(
+  final def testSolution(testSuffix: String = "") = runAndPrint(
     s"./data/test/day${dayNumber}${testSuffix}.in",
     List(("Part 1 [TEST]", solvePart1), ("Part 2 [TEST]", solvePart2))
   )
+
+
+trait SolutionWithParser[InputType, OutputType] extends Solution[InputType, OutputType]:
+  def parser: Parser[InputType]
+
+  override def processInput(rawInput: Source): InputType = parser
+    .parse(rawInput.mkString)
+    .map { case ((_, res)) => res }
+    .getOrElse {
+      throw new Exception("Failed parsing input")
+    }
