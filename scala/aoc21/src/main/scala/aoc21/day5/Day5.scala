@@ -64,7 +64,7 @@ object Parsing {
 }
 
 
-object Day5 extends SolutionWithParser[List[LineSegment], Int] {
+object Day5 extends SolutionWithParser[List[LineSegment], Int]:
   override def dayNumber: Int = 5
 
   override def parser: Parser[List[LineSegment]] = Parsing.lineSegments
@@ -80,7 +80,5 @@ object Day5 extends SolutionWithParser[List[LineSegment], Int] {
     for seg <- input do
       board.addLine(seg, true)
     board.intersections
-
-}
 
 @main def run = Day5.runSolution

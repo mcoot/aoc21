@@ -2,24 +2,22 @@ package aoc21.day4
 
 import cats.parse._
 
+import aoc21.common.CommonParsers
+
 object Day4Parsing {
-  val spaces = Parser.char(' ').rep
-  val newLine = Parser.char('\r').? ~ Parser.char('\n')
+  val drawNumbers = CommonParsers.commaSeparated(CommonParsers.int)
 
-  val num = Numbers.digits.map(_.toInt)
+  val bingoRow =
+    CommonParsers.withTrimmedStartingSpaces(CommonParsers.spaceSeparated(CommonParsers.int))
 
-  val drawNumbers = num.repSep(1, Parser.char(',')).map(_.toList)
-
-  val bingoRow = (spaces.?).with1 *> num.repSep(5, 5, spaces).map(_.toList)
-
-  val bingoBoard = bingoRow.repSep(5, 5, newLine)
+  val bingoBoard = bingoRow.repSep(5, 5, CommonParsers.newLine)
     .map(_.map(_.toArray).toList.toArray)
     .map(new BingoBoard(_))
 
   val bingoInput = for
-      nums <- drawNumbers <* newLine
-      _ <- newLine
-      boards <- bingoBoard.repSep(1, newLine ~ newLine)
+      nums <- drawNumbers <* CommonParsers.newLine
+      _ <- CommonParsers.newLine
+      boards <- bingoBoard.repSep(1, CommonParsers.newLine ~ CommonParsers.newLine)
     yield
       new BingoInput(nums, boards.toList)
 }
