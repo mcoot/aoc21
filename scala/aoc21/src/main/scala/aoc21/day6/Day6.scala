@@ -44,7 +44,7 @@ def runFishCounts(input: List[Int], days: Int): Long =
 object Day6 extends SolutionWithParser[List[Int], Long]:
   override def dayNumber: Int = 6
 
-  override def parser: Parser[List[Int]] = CommonParsers.commaSeparated(CommonParsers.int)
+  override def parser: Parser[List[Int]] = CommonParsers.intList
 
   override def solvePart1(input: List[Int]): Long = runFishCounts(input, 80)
 
