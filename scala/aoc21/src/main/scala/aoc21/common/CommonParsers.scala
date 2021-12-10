@@ -20,3 +20,5 @@ object CommonParsers:
 
   def lineSeparated[A](p: Parser[A]): Parser[List[A]] =
     p.repSep(1, newLine).map(_.toList)
+
+  val intList = commaSeparated(int)
