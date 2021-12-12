@@ -3,14 +3,28 @@ package aoc21.day12
 import aoc21.common.SolutionWithParser
 import cats.parse.Parser
 
-object Day12 extends SolutionWithParser[String, Int] {
-  override def dayNumber: Int = 11
+enum CaveSize:
+  case Small
+  case Large
 
-  override def parser: Parser[String] = ???
+case class Cave(size: CaveSize, adjacencies: List[Cave])
 
-  override def solvePart1(input: String): Int = ???
+case class CaveGraph(start: Cave, end: Cave)
 
-  override def solvePart2(input: String): Int = ???
+val caveParser = ???
+
+val adjParser = ???
+
+val caveGraphParser = ???
+
+object Day12 extends SolutionWithParser[CaveGraph, Int] {
+  override def dayNumber: Int = 12
+
+  override def parser: Parser[CaveGraph] = caveGraphParser
+
+  override def solvePart1(input: CaveGraph): Int = ???
+
+  override def solvePart2(input: CaveGraph): Int = ???
 }
 
-@main def run = Day12.testSolution()
+@main def run = Day12.testSolution("small")
