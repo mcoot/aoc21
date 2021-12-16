@@ -27,42 +27,50 @@ trait Solution[InputType, OutputType]:
   def solvePart1(input: InputType): OutputType
   def solvePart2(input: InputType): OutputType
 
-  private def runAndPrint(filename: String, fs: List[(String, InputType => OutputType)]) =
-    val input = processInput(Source.fromFile(filename))
+  private def runAndPrint(source: Source, fs: List[(String, InputType => OutputType)]) =
+    val input = processInput(source)
     for (label, f) <- fs do
       println(s"Executing ${label}:")
       val (result, time) = withTime { f(input) }
       println(s"\tResult: ${result} (${time}ms)")
 
+  private def runAndPrintFromFile(filename: String, fs: List[(String, InputType => OutputType)]) =
+    runAndPrint(Source.fromFile(filename), fs)
+
   def testProcessInput(testSuffix: String = "") =
     println(processInput(Source.fromFile(s"./data/test/day${dayNumber}${testSuffix}.in")))
 
-  final def runPart1 = runAndPrint(
+  final def runPart1 = runAndPrintFromFile(
     s"./data/input/day${dayNumber}.in",
     List(("Part 1", solvePart1))
   )
 
-  final def testPart1(testSuffix: String = "") = runAndPrint(
+  final def testPart1(testSuffix: String = "") = runAndPrintFromFile(
     s"./data/test/day${dayNumber}${testSuffix}.in",
     List(("Part 1 [TEST]", solvePart1))
   )
 
-  final def runPart2 = runAndPrint(
+  final def runPart2 = runAndPrintFromFile(
     s"./data/input/day${dayNumber}.in",
     List(("Part 2", solvePart2))
   )
 
-  final def testPart2(testSuffix: String = "") = runAndPrint(
+  final def testPart2(testSuffix: String = "") = runAndPrintFromFile(
     s"./data/test/day${dayNumber}${testSuffix}.in",
     List(("Part 2 [TEST]", solvePart2))
   )
 
-  final def runSolution = runAndPrint(
+  final def runSolution = runAndPrintFromFile(
     s"./data/input/day${dayNumber}.in",
     List(("Part 1", solvePart1), ("Part 2", solvePart2))
   )
 
-  final def testSolution(testSuffix: String = "") = runAndPrint(
+  final def testSolutionLiteral(test: String) = runAndPrint(
+    Source.fromString(test),
+    List(("Part 1", solvePart1), ("Part 2", solvePart2))
+  )
+
+  final def testSolution(testSuffix: String = "") = runAndPrintFromFile(
     s"./data/test/day${dayNumber}${testSuffix}.in",
     List(("Part 1 [TEST]", solvePart1), ("Part 2 [TEST]", solvePart2))
   )
