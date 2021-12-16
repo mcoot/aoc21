@@ -67,13 +67,14 @@ trait Solution[InputType, OutputType]:
     List(("Part 1 [TEST]", solvePart1), ("Part 2 [TEST]", solvePart2))
   )
 
+def yoloParse[T](parser: Parser[T], input: String): T = parser
+  .parse(input)
+  .map { case ((_, res)) => res }
+  .getOrElse {
+    throw new Exception("Failed parsing input")
+  }
 
 trait SolutionWithParser[InputType, OutputType] extends Solution[InputType, OutputType]:
   def parser: Parser[InputType]
 
-  override def processInput(rawInput: Source): InputType = parser
-    .parse(rawInput.mkString)
-    .map { case ((_, res)) => res }
-    .getOrElse {
-      throw new Exception("Failed parsing input")
-    }
+  override def processInput(rawInput: Source): InputType = yoloParse(parser, rawInput.mkString)
