@@ -7,7 +7,7 @@ object CommonParsers:
 
   val newLine = Parser.char('\r').? ~ Parser.char('\n')
 
-  val int = Numbers.digits.map(_.toInt)
+  val int: Parser[Int] = Numbers.signedIntString.map(_.toInt)
 
   def commaSeparated[A](p: Parser[A]): Parser[List[A]] =
     p.repSep(1, Parser.char(',')).map(_.toList)
