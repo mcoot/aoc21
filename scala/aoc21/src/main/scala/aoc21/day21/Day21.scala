@@ -46,14 +46,14 @@ def takeTurnQuantum(p: PlayerState): List[PlayerState] =
 
   newStates.toList
 
-def execGameQuantum(gs: GameState, cache: MutableMap[GameState, (Long, Long)]): (Long, Long) =
-  if cache.contains(gs) then
-    return cache(gs)
+def execGameQuantum(gs: GameState, cache: MutableMap[(PlayerState, PlayerState), (Long, Long)]): (Long, Long) =
+  if cache.contains((gs.p1, gs.p2)) then
+    return cache((gs.p1, gs.p2))
 
-  if gs.p1.score >= 21L then
+  if gs.p1.score >= 100L then
     return (1L, 0L)
 
-  if gs.p2.score >= 21L then
+  if gs.p2.score >= 100L then
     return (0L, 1L)
 
   val isPlayer2Turn = gs.diceRolls % 2 == 1
@@ -65,7 +65,7 @@ def execGameQuantum(gs: GameState, cache: MutableMap[GameState, (Long, Long)]): 
     val newP2 = if isPlayer2Turn then pState else gs.p2
     val newGs = GameState(newP1, newP2, gs.diceRolls + 1)
     val result = execGameQuantum(newGs, cache)
-    cache(newGs) = result
+    cache((newGs.p1, newGs.p2)) = result
     result
   }
 
