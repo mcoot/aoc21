@@ -50,10 +50,10 @@ def execGameQuantum(gs: GameState, cache: MutableMap[(PlayerState, PlayerState),
   if cache.contains((gs.p1, gs.p2)) then
     return cache((gs.p1, gs.p2))
 
-  if gs.p1.score >= 100L then
+  if gs.p1.score >= 21L then
     return (1L, 0L)
 
-  if gs.p2.score >= 100L then
+  if gs.p2.score >= 21L then
     return (0L, 1L)
 
   val isPlayer2Turn = gs.diceRolls % 2 == 1
