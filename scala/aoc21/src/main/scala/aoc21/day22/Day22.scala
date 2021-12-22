@@ -67,4 +67,4 @@ object Day22 extends SolutionWithParser[List[Instruction], Int]:
   override def solvePart2(input: List[Instruction]): Int = ???
 
 
-@main def run = Day22.runSolution
+@main def run = Day22.testSolution("b")
